@@ -9,11 +9,4 @@ test3 = seek.FindObjectModule("findtest", "matchtest", "dog")
 test4 = seek.ImageMatchModule("matchtest", "qrtest", "image/base.JPG")
 test5 = seek.QRModule("qrtest", "<p>This page should have no continue button</p>", "end", DOMAIN)
 
-print start
-print test1
-print test2
-print test3
-print test4
-print test5
-
 seek.save_module_data()

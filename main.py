@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from werkzeug import secure_filename
-import json, os
+import json, os, image
 app = Flask(__name__)
 
 with open('modules.json', 'r') as fp:
@@ -78,6 +78,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
+# For uploading the photos to the find and match modules
 @app.route('/upload/', methods=['POST'])
 def upload():
     file = request.files['file']
@@ -87,12 +88,13 @@ def upload():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
 
+        # Target and module type encoded in hidden form options
         target = request.form['target']
         url = request.form['url']
         module_url = url.split('/')[-1]
         module_type = url.split('/')[-2]
 
-        import image
+        # Handle the uploaded file depending on what module it was uploaded for
         if module_type == "match":
             image_filename = request.form['image_filename'].strip('/')
             print(filepath, image_filename)
